@@ -1,5 +1,9 @@
 # TDD
 
+
+|Reference | [MangKyu's Diary](https://mangkyu.tistory.com/183) |
+| --- | --- |
+
 ## [ 문제 설명 ]
 이번 연습 문제의 주제는 멤버십 적립 서비스입니다.
 
@@ -21,7 +25,7 @@ Content-type 응답 형태는 application/json(JSON) 형식을 사용합니다.
 
 
 ## [ 상세 기술 구현 사항 ]
-###나의 멤버십 등록 API
+### 나의 멤버십 등록 API
 - 기능: 나의 멤버십을 등록합니다.
 - 요청: 사용자 식별값, 멤버십 이름, 포인트
 - 응답: 멤버십 ID, 멤버십 이름
@@ -41,7 +45,3 @@ Content-type 응답 형태는 application/json(JSON) 형식을 사용합니다.
 - 기능: 나의 멤버십 포인트를 결제 금액의 1%만큼 적립합니다.
 - 요청: 사용자 식별값, 멤버십 ID, 사용 금액을 입력값으로 받습니다.
 - 응답: X
-
----
-## Reference
-[MangKyu's Diary](https://mangkyu.tistory.com/183)
