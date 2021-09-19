@@ -15,7 +15,7 @@ class MembershipRepositoryTest {
     @Test
     public void 멤버십등록() {
         //given
-        final Membership membership = Membership.Builder()
+        final Membership membership = Membership.builder()
                 .userId("userId")
                 .membershipName("네이버")
                 .point(1000)
