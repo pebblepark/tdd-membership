@@ -26,8 +26,8 @@ public class Membership {
     @Column(nullable = false)
     private String userId;
 
-    @Column(nullable = false, length = 20)
-    private String membershipName;
+    @Enumerated(EnumType.STRING)
+    private MembershipType membershipName;
 
     @Column(nullable = false)
     @ColumnDefault("0")

@@ -17,7 +17,7 @@ class MembershipRepositoryTest {
         //given
         final Membership membership = Membership.builder()
                 .userId("userId")
-                .membershipName("네이버")
+                .membershipName(MembershipType.NAVER)
                 .point(1000)
                 .build();
 
@@ -27,7 +27,7 @@ class MembershipRepositoryTest {
         //then
         assertNotNull(result.getId());
         assertEquals("userId", result.getUserId());
-        assertEquals("네이버", result.getMembershipName());
+        assertEquals(MembershipType.NAVER, result.getMembershipName());
         assertEquals(1000, result.getPoint());
 
     }
