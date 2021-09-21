@@ -17,7 +17,7 @@ class MembershipRepositoryTest {
         //given
         final Membership membership = Membership.builder()
                 .userId("userId")
-                .membershipName(MembershipType.NAVER)
+                .membershipType(MembershipType.NAVER)
                 .point(1000)
                 .build();
 
@@ -27,8 +27,23 @@ class MembershipRepositoryTest {
         //then
         assertNotNull(result.getId());
         assertEquals("userId", result.getUserId());
-        assertEquals(MembershipType.NAVER, result.getMembershipName());
+        assertEquals(MembershipType.NAVER, result.getMembershipType());
         assertEquals(1000, result.getPoint());
+    }
 
+    @Test
+    public void 멤버십이_존재하는지_테스트() {
+        //given
+        멤버십등록();
+
+        //when
+        final Membership findResult = membershipRepository.findByUserIdAndMembershipType("userId", MembershipType.NAVER);
+
+        //then
+        assertNotNull(findResult);
+        assertNotNull(findResult.getId());
+        assertEquals("userId", findResult.getUserId());
+        assertEquals(MembershipType.NAVER, findResult.getMembershipType());
+        assertEquals(1000, findResult.getPoint());
     }
 }
