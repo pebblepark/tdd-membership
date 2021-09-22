@@ -1,5 +1,6 @@
 package com.example.membership.service;
 
+import com.example.membership.dto.MembershipResponse;
 import com.example.membership.entity.Membership;
 import com.example.membership.entity.MembershipRepository;
 import com.example.membership.entity.MembershipType;
@@ -48,7 +49,7 @@ class MembershipServiceTest {
         doReturn(membership()).when(membershipRepository).save(any(Membership.class));
 
         //when
-        final Membership result = target.addMembership(userId, membershipType, point);
+        final MembershipResponse result = target.addMembership(userId, membershipType, point);
 
         //then
         assertNotNull(result.getId());

@@ -1,5 +1,6 @@
 package com.example.membership.service;
 
+import com.example.membership.dto.MembershipResponse;
 import com.example.membership.entity.Membership;
 import com.example.membership.entity.MembershipRepository;
 import com.example.membership.entity.MembershipType;
@@ -14,7 +15,7 @@ public class MembershipService {
 
     private final MembershipRepository membershipRepository;
 
-    public Membership addMembership(final String userId, final MembershipType membershipType, final Integer point) {
+    public MembershipResponse addMembership(final String userId, final MembershipType membershipType, final Integer point) {
         final Membership result = membershipRepository.findByUserIdAndMembershipType(userId, membershipType);
 
         if(result != null) {
@@ -26,7 +27,12 @@ public class MembershipService {
                 .membershipType(membershipType)
                 .point(point)
                 .build();
-        
-        return membershipRepository.save(membership);
+
+        final Membership savedMembership = membershipRepository.save(membership);
+
+        return MembershipResponse.builder()
+                .id(savedMembership.getId())
+                .membershipType(savedMembership.getMembershipType())
+                .build();
     }
 }
