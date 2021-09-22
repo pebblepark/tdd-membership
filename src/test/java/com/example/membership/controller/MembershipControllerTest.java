@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static com.example.membership.common.MembershipConstants.USER_ID_HEADER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,6 +29,7 @@ class MembershipControllerTest {
 
     @BeforeEach
     public void init(){
+        gson = new Gson();
         mockMvc = MockMvcBuilders.standaloneSetup(target).build();
     }
 
@@ -41,6 +43,57 @@ class MembershipControllerTest {
                 MockMvcRequestBuilders.post(url)
                 .content(gson.toJson(membershipRequest(10000, MembershipType.NAVER)))
                 .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 멤버십등록실패_포인트가null() throws Exception {
+        //given
+        final String url = "/api/v1/membership";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                .header(USER_ID_HEADER, "12345")
+                .content(gson.toJson(membershipRequest(null, MembershipType.NAVER)))
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 멤버십등록실패_포인트가음수() throws Exception {
+        //given
+        final String url = "/api/v1/membership";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .header(USER_ID_HEADER, "12345")
+                        .content(gson.toJson(membershipRequest(-1, MembershipType.NAVER)))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 멤버십등록실패_멤버십종류가null() throws Exception {
+        //given
+        final String url = "/api/v1/membership";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .header(USER_ID_HEADER, "12345")
+                        .content(gson.toJson(membershipRequest(10000, null)))
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         //then

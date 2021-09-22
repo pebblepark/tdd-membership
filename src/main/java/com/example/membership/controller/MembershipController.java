@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static com.example.membership.common.MembershipConstants.USER_ID_HEADER;
 
 @RestController
@@ -15,7 +17,7 @@ public class MembershipController {
     @PostMapping("/membership")
     public ResponseEntity<MembershipResponse> addMembership(
             @RequestHeader(USER_ID_HEADER) final String userId,
-            @RequestBody final MembershipRequest membershipRequest) {
+            @RequestBody @Valid final MembershipRequest membershipRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
