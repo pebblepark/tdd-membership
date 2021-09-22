@@ -31,7 +31,7 @@ class MembershipServiceTest {
     @Test
     public void 멤버십등록실패_이미존재함() {
         //given
-        doReturn(Membership.builder()).when(membershipRepository).findByUserIdAndMembershipType(userId, membershipType);
+        doReturn(Membership.builder().build()).when(membershipRepository).findByUserIdAndMembershipType(userId, membershipType);
 
         //when
         final MembershipException result = assertThrows(MembershipException.class,
