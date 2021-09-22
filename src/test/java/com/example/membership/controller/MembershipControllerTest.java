@@ -2,11 +2,15 @@ package com.example.membership.controller;
 
 import com.example.membership.dto.MembershipRequest;
 import com.example.membership.entity.MembershipType;
+import com.example.membership.exception.MembershipErrorResult;
+import com.example.membership.exception.MembershipException;
+import com.example.membership.service.MembershipService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static com.example.membership.common.MembershipConstants.USER_ID_HEADER;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,6 +28,9 @@ class MembershipControllerTest {
 
     @InjectMocks
     private MembershipController target;
+
+    @Mock
+    private MembershipService membershipService;
 
     private MockMvc mockMvc;
     private Gson gson;
@@ -93,6 +101,26 @@ class MembershipControllerTest {
                 MockMvcRequestBuilders.post(url)
                         .header(USER_ID_HEADER, "12345")
                         .content(gson.toJson(membershipRequest(10000, null)))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 멤버십등록실패_MembershipService에서ExceptionThrow() throws Exception {
+        //given
+        final String url = "/api/v1/membership";
+        doThrow(new MembershipException(MembershipErrorResult.DUPLICATED_MEMBERSHIP_REGISTER))
+                .when(membershipService)
+                .addMembership("12345", MembershipType.NAVER, 10000);
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .header(USER_ID_HEADER, "12345")
+                        .content(gson.toJson(membershipRequest(10000, MembershipType.NAVER)))
                         .contentType(MediaType.APPLICATION_JSON)
         );
 
