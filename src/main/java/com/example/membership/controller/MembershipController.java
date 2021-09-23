@@ -4,6 +4,7 @@ import com.example.membership.common.DefaultRestController;
 import com.example.membership.dto.MembershipDetailResponse;
 import com.example.membership.dto.MembershipRequest;
 import com.example.membership.dto.MembershipAddResponse;
+import com.example.membership.entity.MembershipType;
 import com.example.membership.service.MembershipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,4 +37,13 @@ public class MembershipController extends DefaultRestController {
     public ResponseEntity<List<MembershipDetailResponse>> getMembershipList(@RequestHeader(USER_ID_HEADER) final String userId) {
         return ResponseEntity.ok(membershipService.getMembershipList(userId));
     }
+
+    @GetMapping("/api/v1/membership")
+    public ResponseEntity<MembershipDetailResponse> getMembership(
+            @RequestHeader(USER_ID_HEADER) final String userId,
+            @RequestParam final MembershipType membershipType) {
+        return ResponseEntity.ok(membershipService.getMembership(userId, membershipType));
+    }
+
+
 }
