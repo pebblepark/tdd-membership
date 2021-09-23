@@ -52,4 +52,19 @@ public class MembershipService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public MembershipDetailResponse getMembership(String userId, MembershipType membershipType) {
+        final Membership membership = membershipRepository.findByUserIdAndMembershipType(userId, membershipType);
+
+        if(membership == null) {
+            throw new MembershipException(MembershipErrorResult.MEMBERSHIP_NOT_FOUND);
+        }
+
+        return MembershipDetailResponse.builder()
+                .id(membership.getId())
+                .membershipType(membership.getMembershipType())
+                .point(membership.getPoint())
+                .createdAt(membership.getCreatedAt())
+                .build();
+    }
 }
