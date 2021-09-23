@@ -135,7 +135,7 @@ class MembershipServiceTest {
     public void 멤버십삭제실패_본인이아님() {
         //given
         final Membership membership = membership();
-        doReturn(membership).when(membershipRepository).findById(membershipId);
+        doReturn(Optional.of(membership)).when(membershipRepository).findById(membershipId);
 
         //when
         final MembershipException result = assertThrows(MembershipException.class,
