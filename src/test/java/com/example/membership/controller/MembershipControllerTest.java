@@ -1,7 +1,7 @@
 package com.example.membership.controller;
 
 import com.example.membership.dto.MembershipRequest;
-import com.example.membership.dto.MembershipResponse;
+import com.example.membership.dto.MembershipAddResponse;
 import com.example.membership.entity.MembershipType;
 import com.example.membership.exception.MembershipErrorResult;
 import com.example.membership.exception.MembershipException;
@@ -140,11 +140,11 @@ class MembershipControllerTest {
         final MembershipType membershipType = MembershipType.NAVER;
         final Integer point = 10000;
 
-        final MembershipResponse membershipResponse = MembershipResponse.builder()
+        final MembershipAddResponse membershipAddResponse = MembershipAddResponse.builder()
                 .id(-1L)
                 .membershipType(membershipType)
                 .build();
-        doReturn(membershipResponse).when(membershipService).addMembership(userId, membershipType, point);
+        doReturn(membershipAddResponse).when(membershipService).addMembership(userId, membershipType, point);
 
         //when
         final ResultActions resultActions = mockMvc.perform(
@@ -157,9 +157,9 @@ class MembershipControllerTest {
         //then
         resultActions.andExpect(status().isCreated());
 
-        final MembershipResponse response = gson.fromJson(resultActions.andReturn()
+        final MembershipAddResponse response = gson.fromJson(resultActions.andReturn()
             .getResponse()
-            .getContentAsString(StandardCharsets.UTF_8), MembershipResponse.class);
+            .getContentAsString(StandardCharsets.UTF_8), MembershipAddResponse.class);
 
         assertNotNull(response.getId());
         assertEquals(membershipType, response.getMembershipType());
