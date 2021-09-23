@@ -9,6 +9,8 @@ import com.example.membership.exception.MembershipException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MembershipService {
@@ -34,5 +36,9 @@ public class MembershipService {
                 .id(savedMembership.getId())
                 .membershipType(savedMembership.getMembershipType())
                 .build();
+    }
+
+    public List<Membership> getMembershipList(final String userId) {
+        return membershipRepository.findAllByUserId(userId);
     }
 }
