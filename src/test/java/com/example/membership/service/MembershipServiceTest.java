@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -66,6 +69,23 @@ class MembershipServiceTest {
                 .userId(userId)
                 .point(point)
                 .membershipType(MembershipType.NAVER).build();
+    }
+
+
+    @Test
+    public void 멤버십목록조회() {
+        //given
+        doReturn(Arrays.asList(
+                Membership.builder().build(),
+                Membership.builder().build(),
+                Membership.builder().build()
+        )).when(membershipRepository).findAllByUserId(userId);
+
+        //when
+        final List<Membership> result = target.getMembershipList(userId);
+
+        //then
+        assertEquals(3, result.size());
     }
 
 
