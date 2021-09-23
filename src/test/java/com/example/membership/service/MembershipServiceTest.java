@@ -89,5 +89,31 @@ class MembershipServiceTest {
         assertEquals(3, result.size());
     }
 
+    @Test
+    public void 멤버십상세조회_존재하지않음() {
+        //given
+        doReturn(null).when(membershipRepository).findByUserIdAndMembershipType(userId, membershipType);
+
+        //when
+        final MembershipException membershipException = assertThrows(MembershipException.class,
+                () -> target.getMembership(userId, membershipType));
+
+        //then
+        assertEquals(MembershipErrorResult.MEMBERSHIP_NOT_FOUND, membershipException.getErrorResult());
+    }
+
+    @Test
+    public void 멤버십상세조회성공() {
+        //given
+        doReturn(membership()).when(membershipRepository).findByUserIdAndMembershipType(userId, membershipType);
+
+        //when
+        final MembershipDetailResponse result = target.getMembership(userId, membershipType);
+
+        //then
+        assertEquals(MembershipType.NAVER, result.getMembershipType());
+        assertEquals(point, result.getPoint());
+    }
+
 
 }
