@@ -1,5 +1,7 @@
 package com.example.membership.dto;
 
+import com.example.membership.common.ValidationGroups.MembershipAccumulateMaker;
+import com.example.membership.common.ValidationGroups.MembershipAddMaker;
 import com.example.membership.entity.MembershipType;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,10 +17,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(force = true)
 public class MembershipRequest {
 
-    @NotNull
-    @Min(0)
+    @NotNull(groups = {MembershipAddMaker.class, MembershipAccumulateMaker.class})
+    @Min(value = 0, groups = {MembershipAddMaker.class, MembershipAccumulateMaker.class})
     private final Integer point;
 
-    @NotNull
+    @NotNull(groups = {MembershipAddMaker.class})
     private final MembershipType membershipType;
 }
