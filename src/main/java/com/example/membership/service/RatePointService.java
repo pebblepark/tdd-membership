@@ -3,7 +3,7 @@ package com.example.membership.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RatePointService {
+public class RatePointService implements PointService{
 
     private static final int RATE_POINT = 1;
 

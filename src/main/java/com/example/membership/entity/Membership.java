@@ -41,4 +41,7 @@ public class Membership {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    public void addPoint(Integer point) {
+        this.point += point;
+    }
 }
