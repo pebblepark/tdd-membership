@@ -54,5 +54,15 @@ public class MembershipController extends DefaultRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping ("/api/v1/membership/{membershipId}/accumulate")
+    public ResponseEntity<Void> accumulateMembershipPoint(
+            @RequestHeader(USER_ID_HEADER) final String userId,
+            @PathVariable final Long membershipId,
+            @RequestBody @Valid final MembershipRequest membershipRequest) {
+
+        membershipService.accumulateMembershipPoint(membershipId, userId, membershipRequest.getPoint());
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
